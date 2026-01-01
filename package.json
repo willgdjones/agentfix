@@ -1,22 +1,25 @@
 {
-  "name": "cursor-autofix",
-  "version": "1.1.3",
-  "description": "Auto-fix errors in your dev server as they happen using Cursor SDK",
+  "name": "aifix",
+  "version": "1.0.0",
+  "description": "Auto-fix errors in your dev server as they happen using AI",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "autofix": "./dist/index.js"
+    "aifix": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "version": "echo '\n⚠️  Don't forget to update CHANGELOG.md!\n'"
   },
   "keywords": [
     "cli",
     "autofix",
+    "aifix",
     "cursor",
+    "claude",
     "ai",
     "developer-tools",
     "debugging",
@@ -26,20 +29,22 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/willgdjones/cursor-autofix.git"
+    "url": "git+https://github.com/willgdjones/aifix.git"
   },
-  "homepage": "https://github.com/willgdjones/cursor-autofix#readme",
+  "homepage": "https://github.com/willgdjones/aifix#readme",
   "bugs": {
-    "url": "https://github.com/willgdjones/cursor-autofix/issues"
+    "url": "https://github.com/willgdjones/aifix/issues"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.76",
     "@cursor-ai/january": "^0.1.3",
     "chalk": "^5.3.0"
   },

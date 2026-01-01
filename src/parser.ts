@@ -101,6 +101,63 @@ function extractFromCombinedMatch(
       type = 'ESLintError';
       break;
 
+    case 'python':
+      // File\s+"([^"]+)",\s+line\s+(\d+).*?\n(?:.*?\n)?([A-Z][a-zA-Z]*Error):\s*(.+)$
+      file = match[1];
+      line = parseInt(match[2], 10);
+      type = match[3];
+      message = match[4];
+      break;
+
+    case 'ruby':
+      // ([^:\s]+):(\d+):in\s+.*?:?\s*(.+?)\s*\(([A-Z][a-zA-Z]*Error)\)$
+      file = match[1];
+      line = parseInt(match[2], 10);
+      message = match[3];
+      type = match[4];
+      break;
+
+    case 'go':
+      // (?:panic:\s+)?(.+?)\s*\n.*?\n\s+([^\s]+\.go):(\d+)
+      message = match[1];
+      file = match[2];
+      line = parseInt(match[3], 10);
+      type = 'Panic';
+      break;
+
+    case 'rust':
+      // error(?:\[E\d+\])?:\s*(.+?)\n\s+-->\s+([^:]+):(\d+):(\d+)
+      message = match[1];
+      file = match[2];
+      line = parseInt(match[3], 10);
+      column = parseInt(match[4], 10);
+      type = 'CompileError';
+      break;
+
+    case 'java':
+      // ([a-zA-Z0-9.]+(?:Exception|Error)):\s*(.+?)\n\s+at\s+[a-zA-Z0-9.$_]+\s*\(([^:]+):(\d+)\)
+      type = match[1];
+      message = match[2];
+      file = match[3];
+      line = parseInt(match[4], 10);
+      break;
+
+    case 'php':
+      // (?:Fatal error|Parse error|Uncaught TypeError):\s*(.+?)\s+in\s+([^:\s]+)\s+on\s+line\s+(\d+)
+      message = match[1];
+      file = match[2];
+      line = parseInt(match[3], 10);
+      type = 'FatalError';
+      break;
+
+    case 'csharp':
+      // ([a-zA-Z0-9.]+(?:Exception|Error)):\s*(.+?)\n\s+at\s+.*?in\s+([^:\s]+):line\s+(\d+)
+      type = match[1];
+      message = match[2];
+      file = match[3];
+      line = parseInt(match[4], 10);
+      break;
+
     default:
       // Generic: try common positions
       // ([A-Za-z]*Error):\s*(.+?)...([^:\s]+\.[jt]sx?):(\d+)
@@ -153,18 +210,32 @@ function extractStackTrace(output: string): string {
   let inStack = false;
 
   for (const line of lines) {
-    if (line.includes('at ') || line.match(/^\s+at\s/)) {
+    const trimmedLine = line.trim();
+    // Common stack trace markers across languages
+    if (
+      trimmedLine.startsWith('at ') || 
+      trimmedLine.match(/^\s+at\s/) ||
+      trimmedLine.startsWith('File "') ||
+      trimmedLine.includes('stack backtrace:') ||
+      trimmedLine.startsWith('Traceback (most recent call last):') ||
+      trimmedLine.match(/^[^\s]+:\d+:in/)
+    ) {
       inStack = true;
       stackLines.push(line);
-    } else if (inStack && line.trim() === '') {
-      break;
-    } else if (line.match(/Error:|error:/i)) {
+    } else if (inStack && trimmedLine === '') {
+      // Some languages use empty lines to separate stack traces from other output
+      // But we might want to continue if it's just a break in a multi-part trace
+      if (stackLines.length > 5) break; 
+    } else if (trimmedLine.match(/Error:|error:|Exception:|panic:/i)) {
       stackLines.push(line);
       inStack = true;
+    } else if (inStack && stackLines.length < 20) {
+      // Include some context lines if we're in a stack trace
+      stackLines.push(line);
     }
   }
 
-  return stackLines.join('\n') || output.slice(0, 1000);
+  return stackLines.join('\n') || output.slice(0, 2000);
 }
 
 function normalizePath(filePath: string): string {

@@ -8,18 +8,19 @@ const args = process.argv.slice(2);
 // Check for help flag
 if (args.includes('--help') || args.includes('-h') || args.length === 0) {
   console.log(`
-${chalk.bold.cyan('autofix')} - Auto-fix errors in your dev server as they happen
+${chalk.bold.cyan('aifix')} - Auto-fix errors in your dev server as they happen
 
 ${chalk.bold('Usage:')}
-  autofix <command>
+  aifix <command>
 
 ${chalk.bold('Examples:')}
-  autofix npm run dev
-  autofix npx next dev
-  autofix node server.js
+  aifix npm run dev
+  aifix npx next dev
+  aifix node server.js
 
 ${chalk.bold('Environment:')}
-  CURSOR_API_KEY  Required. Your Cursor API key.
+  CURSOR_API_KEY     Required (or ANTHROPIC_API_KEY). Your Cursor API key.
+  ANTHROPIC_API_KEY  Required (or CURSOR_API_KEY). Your Anthropic API key.
 
 ${chalk.bold('Options:')}
   --help, -h      Show this help message
@@ -29,9 +30,9 @@ ${chalk.bold('Options:')}
 }
 
 // Check for API key
-if (!process.env.CURSOR_API_KEY) {
-  console.error(chalk.red('Error: CURSOR_API_KEY environment variable is required.'));
-  console.error(chalk.gray('Set it with: export CURSOR_API_KEY="your_key"'));
+if (!process.env.CURSOR_API_KEY && !process.env.ANTHROPIC_API_KEY) {
+  console.error(chalk.red('Error: CURSOR_API_KEY or ANTHROPIC_API_KEY environment variable is required.'));
+  console.error(chalk.gray('Set one with: export CURSOR_API_KEY="your_key" OR export ANTHROPIC_API_KEY="your_key"'));
   process.exit(1);
 }
 
@@ -41,12 +42,15 @@ const command = args.filter(arg => !arg.startsWith('--')).join(' ');
 
 if (!command) {
   console.error(chalk.red('Error: No command provided.'));
-  console.error(chalk.gray('Usage: autofix <command>'));
+  console.error(chalk.gray('Usage: aifix <command>'));
   process.exit(1);
 }
 
-console.log(chalk.cyan.bold('\n🔧 AutoFix'));
+const providerName = process.env.CURSOR_API_KEY ? 'Cursor' : 'Claude';
+
+console.log(chalk.cyan.bold('\n🔧 AIFix'));
 console.log(chalk.gray(`Starting: ${command}`));
+console.log(chalk.gray(`Using provider: ${providerName}`));
 console.log(chalk.gray('Monitoring for errors...\n'));
 
 runWithAutofix(command, { dryRun });

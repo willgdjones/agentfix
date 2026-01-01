@@ -1,61 +1,58 @@
-# AutoFix Demo
+# aifix Demos
 
-A simple Express server with a deliberate bug to test the AutoFix CLI.
+This directory contains simple buggy examples in various programming languages to demonstrate `aifix`'s multi-language support.
 
-## The Bug
+## Usage
 
-The `/users` endpoint calls `.map()` on a value that can be `null`:
+For each example, you can run `aifix` with the corresponding command. Make sure you have `CURSOR_API_KEY` or `ANTHROPIC_API_KEY` exported in your environment.
 
-```javascript
-const users = getUsers();  // Can return null!
-const userNames = users.map(u => u.name);  // 💥 TypeError!
-```
-
-## Setup
-
+### Node.js (JavaScript)
 ```bash
-cd demo
-npm install
+aifix node server.js
 ```
 
-## Test AutoFix
-
-1. From the `autofix-cli` directory, run:
+### Python
 ```bash
-export CURSOR_API_KEY="your_key"
-node dist/index.js "node demo/server.js"
+aifix python python_error.py
 ```
 
-2. Open your browser to `http://localhost:3000/users`
-
-3. Refresh a few times — the bug triggers ~70% of the time
-
-4. Watch the terminal:
-   - Error appears: `TypeError: Cannot read property 'map' of null`
-   - AutoFix detects it
-   - Cursor Agent fixes `server.js`
-   - Server restarts (you may need to restart manually since this is plain Node)
-
-## Expected Fix
-
-The agent should change:
-```javascript
-const userNames = users.map(u => u.name);
-```
-
-To something like:
-```javascript
-const userNames = (users || []).map(u => u.name);
-// or
-const userNames = users?.map(u => u.name) ?? [];
-```
-
-## Manual Test (without autofix)
-
+### Ruby
 ```bash
-cd demo
-npm install
-node server.js
-# Open http://localhost:3000/users and refresh until it crashes
+aifix ruby ruby_error.rb
 ```
 
+### Go
+```bash
+aifix go run go_error.go
+```
+
+### Rust
+```bash
+aifix rustc rust_error.rs
+```
+
+### Java
+```bash
+aifix java JavaError.java
+```
+
+### PHP
+```bash
+aifix php php_error.php
+```
+
+### C#
+```bash
+aifix csc CSharpError.cs
+# OR
+aifix dotnet run # if setup as a project
+```
+
+## How it works
+
+`aifix` will:
+1. Run the command
+2. Capture the error output and stack trace
+3. Identify the language and specific error location
+4. Use AI (Cursor or Claude) to analyze and fix the file
+5. Once fixed, you can run the command again to verify the fix!

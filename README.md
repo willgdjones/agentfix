@@ -1,29 +1,39 @@
-# cursor-autofix
+# aifix
 
-Auto-fix errors in your dev server as they happen using Cursor AI. Never stop to debug — the AI fixes bugs while you keep building.
+Auto-fix errors in your dev server as they happen using AI (Cursor or Claude). Never stop to debug — the AI fixes bugs while you keep building.
 
 ## Installation
 
 ```bash
-npm install -g cursor-autofix
+npm install -g aifix
 ```
 
 ## Setup
 
+You can use either Cursor or Claude as your AI provider.
+
+### Option 1: Cursor (Default)
 Get a Cursor API key from the [Cursor Dashboard](https://cursor.com/dashboard?tab=integrations), then:
 
 ```bash
 export CURSOR_API_KEY="your_key"
 ```
 
-## Usage
-
-Wrap any dev command with `autofix`:
+### Option 2: Claude
+Get an Anthropic API key from the [Anthropic Console](https://console.anthropic.com/), then:
 
 ```bash
-autofix npm run dev
-autofix npx next dev
-autofix "node --watch server.js"
+export ANTHROPIC_API_KEY="your_key"
+```
+
+## Usage
+
+Wrap any dev command with `aifix`:
+
+```bash
+aifix npm run dev
+aifix npx next dev
+aifix "node --watch server.js"
 ```
 
 > **Tip:** Use `node --watch` (Node 18+) for automatic server restart when files change. Frameworks like Next.js and Vite have hot reload built-in.
@@ -34,10 +44,11 @@ autofix "node --watch server.js"
 ┌──────────────────────────────────────────────────────────────┐
 │  Terminal                                                     │
 │                                                              │
-│  $ autofix npm run dev                                       │
+│  $ aifix npm run dev                                         │
 │                                                              │
-│  🔧 AutoFix                                                   │
+│  🔧 AIFix                                                     │
 │  Starting: npm run dev                                       │
+│  Using provider: Cursor                                      │
 │  Monitoring for errors...                                    │
 │                                                              │
 │  Demo server running at http://localhost:3000                │
@@ -46,18 +57,18 @@ autofix "node --watch server.js"
 │    (reading 'toUpperCase')                                   │
 │    at server.js:35:43                                       │
 │                                                              │
-│  [autofix] 🔍 Error detected!                               │
+│  [aifix] 🔍 Error detected!                                 │
 │    Type: TypeError                                           │
 │    Message: Cannot read properties of undefined             │
 │      (reading 'toUpperCase')                                 │
 │    File: server.js:35                                        │
 │                                                              │
-│  [autofix] 🔧 Fixing...                                      │
+│  [aifix] 🔧 Fixing...                                        │
 │  I'll help you fix this TypeError. Let me first examine     │
 │  the server.js file to understand the context around         │
 │  line 35.                                                    │
 │                                                              │
-│  [autofix] 🔧 read: Reading server.js                       │
+│  [aifix] 🔧 read: Reading server.js                         │
 │                                                              │
 │  I can see the issue clearly. On line 35, there's a typo:    │
 │  `u.nmee` should be `u.name`. The property `nmee` doesn't  │
@@ -65,8 +76,8 @@ autofix "node --watch server.js"
 │  calling `toUpperCase()` on `undefined` causes the          │
 │  TypeError.                                                 │
 │                                                              │
-│  [autofix] 🔧 edit: Editing server.js                      │
-│  [autofix] ✅ Modified: server.js                          │
+│  [aifix] 🔧 edit: Editing server.js                        │
+│  [aifix] ✅ Modified: server.js                             │
 │                                                              │
 │  Restarting 'server.js'                                      │
 │  Demo server running at http://localhost:3000                │
@@ -74,41 +85,44 @@ autofix "node --watch server.js"
 │  The error has been fixed. The issue was a simple typo on   │
 │  line 35 where `u.nmee` should have been `u.name`.          │
 │                                                              │
-│  [autofix] ✅ Fixed server.js                               │
+│  [aifix] ✅ Fixed server.js                                  │
 │    Hot reload should kick in shortly...                      │
 │                                                              │
-└──────────────────────────────────────────────────────────────┘
+│└──────────────────────────────────────────────────────────────┘
 ```
 
 1. **Wraps** your dev server as a child process
 2. **Monitors** stdout/stderr for error patterns
 3. **Detects** errors and extracts file/line info from stack traces
 4. **Analyzes** the code and explains the root cause
-5. **Fixes** the code using Cursor AI agent
+5. **Fixes** the code using AI agent (Cursor or Claude)
 6. **Hot reload** picks up the changes automatically
 
 ## Options
 
 ```bash
-autofix --help          # Show help
-autofix --dry-run ...   # Detect errors without fixing
+aifix --help          # Show help
+aifix --dry-run ...   # Detect errors without fixing
 ```
 
 ## Requirements
 
 - Node.js 18+
-- `CURSOR_API_KEY` environment variable
-- Access to `@cursor-ai/january` SDK (currently in alpha)
+- `CURSOR_API_KEY` or `ANTHROPIC_API_KEY` environment variable
 
 ## Example
 
 ```bash
-# Start a Next.js app with autofix
-autofix npm run dev
+# Start a Next.js app with aifix
+aifix npm run dev
 
 # Navigate to a buggy page
 # Watch the error appear and get fixed automatically!
 ```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 
