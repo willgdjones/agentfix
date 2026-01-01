@@ -43,17 +43,17 @@ export class CursorProvider implements AIProvider {
             console.log();
             textBuffer = '';
           }
-          console.log(chalk.cyan(`\n[aifix] 🔧 ${update.toolCall.type}: ${getToolDescription(update.toolCall)}`));
+          console.log(chalk.cyan(`\n[agentfix] 🔧 ${update.toolCall.type}: ${getToolDescription(update.toolCall)}`));
         } else if (update.type === 'tool-call-completed') {
           if (update.toolCall.type === 'edit' || update.toolCall.type === 'write') {
-            console.log(chalk.green(`[aifix] ✅ Modified: ${getFilePath(update.toolCall)}`));
+            console.log(chalk.green(`\n[agentfix] ✅ Modified: ${getFilePath(update.toolCall)}`));
           }
         }
       }
       return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : String(err);
-      console.error(chalk.red(`\n[aifix] Cursor error: ${errorMessage}`));
+      console.error(chalk.red(`\n[agentfix] Cursor error: ${errorMessage}`));
       return false;
     }
   }
@@ -76,11 +76,11 @@ export class ClaudeProvider implements AIProvider {
 
       const result = query({
         prompt,
-        options: {
-          allowedTools: ['Read', 'Edit', 'Write', 'Bash', 'Glob', 'Grep'],
-          permissionMode: 'acceptEdits' // Auto-accept edits for aifix
-        }
-      });
+          options: {
+            allowedTools: ['Read', 'Edit', 'Write', 'Bash', 'Glob', 'Grep'],
+            permissionMode: 'acceptEdits' // Auto-accept edits for agentfix
+          }
+        });
 
       let textBuffer = '';
       for await (const message of result) {
@@ -96,17 +96,17 @@ export class ClaudeProvider implements AIProvider {
                 process.stdout.write(chalk.gray(item.text));
                 textBuffer += item.text;
               } else if (item.type === 'tool_use') {
-                console.log(chalk.cyan(`\n[aifix] 🔧 ${item.name}: ${item.input?.file_path || item.input?.path || ''}`));
+                console.log(chalk.cyan(`\n[agentfix] 🔧 ${item.name}: ${item.input?.file_path || item.input?.path || ''}`));
               }
             }
           }
         } else if (msg.type === 'tool_progress' && msg.tool_name) {
           // Some versions of the SDK use tool_progress for real-time tool info
           if (msg.status === 'started') {
-             console.log(chalk.cyan(`\n[aifix] 🔧 ${msg.tool_name}`));
+             console.log(chalk.cyan(`\n[agentfix] 🔧 ${msg.tool_name}`));
           } else if (msg.status === 'success') {
              if (msg.tool_name === 'Edit' || msg.tool_name === 'Write') {
-                console.log(chalk.green(`[aifix] ✅ Modified file`));
+                console.log(chalk.green(`[agentfix] ✅ Modified file`));
              }
           }
         } else if (msg.type === 'result') {
@@ -120,7 +120,7 @@ export class ClaudeProvider implements AIProvider {
       return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : String(err);
-      console.error(chalk.red(`\n[aifix] Claude error: ${errorMessage}`));
+      console.error(chalk.red(`\n[agentfix] Claude error: ${errorMessage}`));
       return false;
     }
   }

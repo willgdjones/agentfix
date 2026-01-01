@@ -1,56 +1,56 @@
-# aifix Demos
+# agentfix Demos
 
-This directory contains simple buggy examples in various programming languages to demonstrate `aifix`'s multi-language support.
+This directory contains simple buggy examples in various programming languages to demonstrate `agentfix`'s multi-language support.
 
 ## Usage
 
-For each example, you can run `aifix` with the corresponding command. Make sure you have `CURSOR_API_KEY` or `ANTHROPIC_API_KEY` exported in your environment.
+For each example, you can run `agentfix` with the corresponding command. Make sure you have `CURSOR_API_KEY` or `ANTHROPIC_API_KEY` exported in your environment.
 
 ### Node.js (JavaScript)
 ```bash
-aifix node server.js
+agentfix node server.js
 ```
 
 ### Python
 ```bash
-aifix python python_error.py
+agentfix python python_error.py
 ```
 
 ### Ruby
 ```bash
-aifix ruby ruby_error.rb
+agentfix ruby ruby_error.rb
 ```
 
 ### Go
 ```bash
-aifix go run go_error.go
+agentfix go run go_error.go
 ```
 
 ### Rust
 ```bash
-aifix rustc rust_error.rs
+agentfix rustc rust_error.rs
 ```
 
 ### Java
 ```bash
-aifix java JavaError.java
+agentfix java JavaError.java
 ```
 
 ### PHP
 ```bash
-aifix php php_error.php
+agentfix php php_error.php
 ```
 
 ### C#
 ```bash
-aifix csc CSharpError.cs
+agentfix csc CSharpError.cs
 # OR
-aifix dotnet run # if setup as a project
+agentfix dotnet run # if setup as a project
 ```
 
 ## How it works
 
-`aifix` will:
+`agentfix` will:
 1. Run the command
 2. Capture the error output and stack trace
 3. Identify the language and specific error location

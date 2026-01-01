@@ -8,15 +8,15 @@ const args = process.argv.slice(2);
 // Check for help flag
 if (args.includes('--help') || args.includes('-h') || args.length === 0) {
   console.log(`
-${chalk.bold.cyan('aifix')} - Auto-fix errors in your dev server as they happen
+${chalk.bold.cyan('agentfix')} - Auto-fix errors in your dev server as they happen
 
 ${chalk.bold('Usage:')}
-  aifix <command>
+  agentfix <command>
 
 ${chalk.bold('Examples:')}
-  aifix npm run dev
-  aifix npx next dev
-  aifix node server.js
+  agentfix npm run dev
+  agentfix npx next dev
+  agentfix node server.js
 
 ${chalk.bold('Environment:')}
   CURSOR_API_KEY     Required (or ANTHROPIC_API_KEY). Your Cursor API key.
@@ -42,13 +42,13 @@ const command = args.filter(arg => !arg.startsWith('--')).join(' ');
 
 if (!command) {
   console.error(chalk.red('Error: No command provided.'));
-  console.error(chalk.gray('Usage: aifix <command>'));
+  console.error(chalk.gray('Usage: agentfix <command>'));
   process.exit(1);
 }
 
 const providerName = process.env.CURSOR_API_KEY ? 'Cursor' : 'Claude';
 
-console.log(chalk.cyan.bold('\n🔧 AIFix'));
+console.log(chalk.cyan.bold('\n🔧 AgentFix'));
 console.log(chalk.gray(`Starting: ${command}`));
 console.log(chalk.gray(`Using provider: ${providerName}`));
 console.log(chalk.gray('Monitoring for errors...\n'));

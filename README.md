@@ -1,11 +1,11 @@
-# aifix
+# agentfix
 
 Auto-fix errors in your dev server as they happen using AI (Cursor or Claude). Never stop to debug — the AI fixes bugs while you keep building.
 
 ## Installation
 
 ```bash
-npm install -g aifix
+npm install -g agentfix
 ```
 
 ## Setup
@@ -28,12 +28,12 @@ export ANTHROPIC_API_KEY="your_key"
 
 ## Usage
 
-Wrap any dev command with `aifix`:
+Wrap any dev command with `agentfix`:
 
 ```bash
-aifix npm run dev
-aifix npx next dev
-aifix "node --watch server.js"
+agentfix npm run dev
+agentfix npx next dev
+agentfix "node --watch server.js"
 ```
 
 > **Tip:** Use `node --watch` (Node 18+) for automatic server restart when files change. Frameworks like Next.js and Vite have hot reload built-in.
@@ -44,9 +44,9 @@ aifix "node --watch server.js"
 ┌──────────────────────────────────────────────────────────────┐
 │  Terminal                                                     │
 │                                                              │
-│  $ aifix npm run dev                                         │
+│  $ agentfix npm run dev                                       │
 │                                                              │
-│  🔧 AIFix                                                     │
+│  🔧 AgentFix                                                  │
 │  Starting: npm run dev                                       │
 │  Using provider: Cursor                                      │
 │  Monitoring for errors...                                    │
@@ -57,18 +57,18 @@ aifix "node --watch server.js"
 │    (reading 'toUpperCase')                                   │
 │    at server.js:35:43                                       │
 │                                                              │
-│  [aifix] 🔍 Error detected!                                 │
+│  [agentfix] 🔍 Error detected!                                │
 │    Type: TypeError                                           │
 │    Message: Cannot read properties of undefined             │
 │      (reading 'toUpperCase')                                 │
 │    File: server.js:35                                        │
 │                                                              │
-│  [aifix] 🔧 Fixing...                                        │
+│  [agentfix] 🔧 Fixing...                                       │
 │  I'll help you fix this TypeError. Let me first examine     │
 │  the server.js file to understand the context around         │
 │  line 35.                                                    │
 │                                                              │
-│  [aifix] 🔧 read: Reading server.js                         │
+│  [agentfix] 🔧 read: Reading server.js                        │
 │                                                              │
 │  I can see the issue clearly. On line 35, there's a typo:    │
 │  `u.nmee` should be `u.name`. The property `nmee` doesn't  │
@@ -76,8 +76,8 @@ aifix "node --watch server.js"
 │  calling `toUpperCase()` on `undefined` causes the          │
 │  TypeError.                                                 │
 │                                                              │
-│  [aifix] 🔧 edit: Editing server.js                        │
-│  [aifix] ✅ Modified: server.js                             │
+│  [agentfix] 🔧 edit: Editing server.js                       │
+│  [agentfix] ✅ Modified: server.js                            │
 │                                                              │
 │  Restarting 'server.js'                                      │
 │  Demo server running at http://localhost:3000                │
@@ -85,7 +85,7 @@ aifix "node --watch server.js"
 │  The error has been fixed. The issue was a simple typo on   │
 │  line 35 where `u.nmee` should have been `u.name`.          │
 │                                                              │
-│  [aifix] ✅ Fixed server.js                                  │
+│  [agentfix] ✅ Fixed server.js                                 │
 │    Hot reload should kick in shortly...                      │
 │                                                              │
 │└──────────────────────────────────────────────────────────────┘
@@ -101,8 +101,8 @@ aifix "node --watch server.js"
 ## Options
 
 ```bash
-aifix --help          # Show help
-aifix --dry-run ...   # Detect errors without fixing
+agentfix --help          # Show help
+agentfix --dry-run ...   # Detect errors without fixing
 ```
 
 ## Requirements
@@ -113,8 +113,8 @@ aifix --dry-run ...   # Detect errors without fixing
 ## Example
 
 ```bash
-# Start a Next.js app with aifix
-aifix npm run dev
+# Start a Next.js app with agentfix
+agentfix npm run dev
 
 # Navigate to a buggy page
 # Watch the error appear and get fixed automatically!

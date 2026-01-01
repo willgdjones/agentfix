@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-01-01
 
 ### Added
-- **Initial Release of aifix** (formerly `cursor-autofix`).
+- **Initial Release of agentfix** (formerly `cursor-autofix`).
 - **Multi-language Support**: Support for parsing and fixing errors in Python, Ruby, Go, Rust, Java, PHP, and C#.
 - **Dual AI Providers**: Support for both Cursor AI (via January SDK) and Anthropic Claude (via Claude Agent SDK).
 - **Claude Agent SDK Integration**: Uses `@anthropic-ai/claude-agent-sdk` for autonomous file editing.

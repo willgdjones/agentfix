@@ -6,7 +6,7 @@ export async function fixError(error: ParsedError): Promise<boolean> {
   const provider = getProvider();
   
   if (!provider) {
-    console.error(chalk.red('[aifix] Neither CURSOR_API_KEY nor ANTHROPIC_API_KEY set'));
+    console.error(chalk.red('[agentfix] Neither CURSOR_API_KEY nor ANTHROPIC_API_KEY set'));
     return false;
   }
 

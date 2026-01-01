@@ -63,18 +63,18 @@ export function runWithAutofix(command: string, options: RunnerOptions = {}): Ch
   child.stderr?.on('data', (data) => processOutput(data, true));
 
   child.on('error', (err) => {
-    console.error(chalk.red(`\n[aifix] Failed to start command: ${err.message}`));
+    console.error(chalk.red(`\n[agentfix] Failed to start command: ${err.message}`));
   });
 
   child.on('exit', (code) => {
     if (code !== null && code !== 0) {
-      console.log(chalk.yellow(`\n[aifix] Process exited with code ${code}`));
+      console.log(chalk.yellow(`\n[agentfix] Process exited with code ${code}`));
     }
   });
 
   // Handle graceful shutdown
   process.on('SIGINT', () => {
-    console.log(chalk.gray('\n[aifix] Shutting down...'));
+    console.log(chalk.gray('\n[agentfix] Shutting down...'));
     child.kill('SIGINT');
     process.exit(0);
   });
@@ -104,30 +104,30 @@ async function handleError(error: ParsedError, options: RunnerOptions): Promise<
   debounceTimer = setTimeout(async () => {
     fixingErrors.add(errorKey);
 
-    console.log(chalk.yellow(`\n[aifix] 🔍 Error detected!`));
+    console.log(chalk.yellow(`\n[agentfix] 🔍 Error detected!`));
     console.log(chalk.gray(`  Type: ${error.type}`));
     console.log(chalk.gray(`  Message: ${error.message}`));
     console.log(chalk.gray(`  File: ${error.file}:${error.line}`));
 
     if (options.dryRun) {
-      console.log(chalk.cyan(`\n[aifix] Dry run - would fix ${error.file}`));
+      console.log(chalk.cyan(`\n[agentfix] Dry run - would fix ${error.file}`));
       fixingErrors.delete(errorKey);
       return;
     }
 
-    console.log(chalk.cyan(`\n[aifix] 🔧 Fixing...`));
+    console.log(chalk.cyan(`\n[agentfix] 🔧 Fixing...`));
 
     try {
       const success = await fixError(error);
       
       if (success) {
-        console.log(chalk.green(`\n[aifix] ✅ Fixed ${error.file}`));
+        console.log(chalk.green(`\n[agentfix] ✅ Fixed ${error.file}`));
         console.log(chalk.gray(`  Hot reload should kick in shortly...\n`));
       } else {
-        console.log(chalk.red(`\n[aifix] ❌ Could not fix automatically`));
+        console.log(chalk.red(`\n[agentfix] ❌ Could not fix automatically`));
       }
     } catch (err) {
-      console.error(chalk.red(`\n[aifix] ❌ Fix failed: ${err}`));
+      console.error(chalk.red(`\n[agentfix] ❌ Fix failed: ${err}`));
     } finally {
       // Allow re-fixing after a delay (in case the fix didn't work)
       setTimeout(() => {

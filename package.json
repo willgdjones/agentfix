@@ -1,11 +1,11 @@
 {
-  "name": "aifix",
+  "name": "agentfix",
   "version": "1.0.0",
   "description": "Auto-fix errors in your dev server as they happen using AI",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "aifix": "./dist/index.js"
+    "agentfix": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -18,6 +18,7 @@
     "cli",
     "autofix",
     "aifix",
+    "agentfix",
     "cursor",
     "claude",
     "ai",
@@ -29,11 +30,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/willgdjones/aifix.git"
+    "url": "git+https://github.com/willgdjones/agentfix.git"
   },
-  "homepage": "https://github.com/willgdjones/aifix#readme",
+  "homepage": "https://github.com/willgdjones/agentfix#readme",
   "bugs": {
-    "url": "https://github.com/willgdjones/aifix/issues"
+    "url": "https://github.com/willgdjones/agentfix/issues"
   },
   "files": [
     "dist",
